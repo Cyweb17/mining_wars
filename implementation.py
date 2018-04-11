@@ -1128,22 +1128,18 @@ def check_range(attacker, target_pos, ships_ingame, ships_type):
 
     return distance <= ships_type[attacker_ship['type']]['range']
 
-
 def can_recolt(ores, info, ship_name, asteroid_position):
     """
     Check either or not a ship can recolt on an asteroid.
-
     Version
     -------
     specification: Thomas Blanchy (v.1 03/03/2018)
-
     Parameters
     ----------
     ores: the number of ores to add to the ship (float)
     info: the information of the game (dictionary)
     ship_name: the name of the ship that wants to recolt (str)
     asteroid_position: the position of the asteroid to recolt to (list)
-
     Returns
     -------
     recolt: if the ship can recolt (bool)
@@ -1153,6 +1149,11 @@ def can_recolt(ores, info, ship_name, asteroid_position):
     # Check if still enough place on the ship
     # Check if extractor
     pass
+    
+    if ship_name[-3] = extractor: #sorry jsplus coder ahah bref je veux isoler le mot extractor
+        if asteroid_position = info[ship_name][posistion]:  #acceder a la position du bateau
+            if info[ship_name][ores] >= ores:  #chceck dans info la place dispo
+                return True
 
 
 start_game('game.txt', ['ia', 'ia'])
