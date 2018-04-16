@@ -1141,8 +1141,35 @@ def ia(players, ships_ingame, ships_type, info):
                 current_pos = ship['position']
 
                 if ship_type in ['Excavator-S', 'Excavator-M', 'Excavator-L']:
-                    closest_asteroid = get_closest_asteroid(info, current_pos)
+                    
+                    if #checker que l'extraceteur n'est pas plein et n'est pas deja lock sur l'asteroide
+                    
+                          closest_asteroid = get_closest_asteroid(info, current_pos)
 
+                          # Compute X move
+                          x_move = 0
+                          if closest_asteroid['position'][0] > current_pos[0]:
+                          x_move = 1
+                          elif closest_asteroid['position'][0] < current_pos[0]:
+                          x_move = -1
+
+                         # Compute Y move
+                          y_move = 0
+                         if closest_asteroid['position'][1] > current_pos[1]:
+                          y_move = 1
+                          elif closest_asteroid['position'][1] < current_pos[1]:
+                          y_move = -1
+
+                          new_pos_r = current_pos[0] + x_move
+                          new_pos_c = current_pos[1] + y_move
+                    else : #si 'extracteur est plein
+                        #revenir au portail pour decharger
+                         
+                    
+                elif ship_type in ['Warship']:
+                    portal_adverse = get_portal_adverse(info, current_pos) 
+                    #idem qu'avant mais avec portail adverse
+                    #fair ca tant que le warship n'est pas sur le portail, apres stopper les mouvements
                     # Compute X move
                     x_move = 0
                     if closest_asteroid['position'][0] > current_pos[0]:
@@ -1156,10 +1183,8 @@ def ia(players, ships_ingame, ships_type, info):
                         y_move = 1
                     elif closest_asteroid['position'][1] < current_pos[1]:
                         y_move = -1
-
-                    new_pos_r = current_pos[0] + x_move
-                    new_pos_c = current_pos[1] + y_move
-                else:
+                    
+                else: #scout
                     new_pos_r = current_pos[0] + random.randint(-1, 1)
                     new_pos_c = current_pos[1] + random.randint(-1, 1)
                 orders.append('%s:@%d-%d' % (ship_name, new_pos_r, new_pos_c))
@@ -1173,6 +1198,8 @@ def ia(players, ships_ingame, ships_type, info):
                         money -= ships_type[ship_type]['cost']
                         ship_name = 'ia_ship#%d' % random.randint(0, 999)
                         orders.append('%s:%s' % (ship_name, ship_type))
+ #ajouter une conditon pour economiser des ores afin d acheter au moins un warship (ex: le 5e bateau achete -> warship)
+ #acheter extracteur de sorte qu'il y en ai toujours au moins un sur le plateau (sinon la partie se fini)
 
             # Lock
             for asteroid in info['asteroids']:
@@ -1187,9 +1214,13 @@ def ia(players, ships_ingame, ships_type, info):
                 for ship in asteroid['ships_locked']:
                     if ships_ingame[ship]['ore'] == ships_type[ships_ingame[ship]['type']]['tonnage']:
                         orders.append('%s:release' % ship)
+               #unlock aussi lorsque l'asteroide est vide
 
             # Attack
-
+            
+        #warship attaque le portail ennemi des qu'il est dessus
+        #scout attaque vaisseaus adverses, voir le portail advere, des qu'ils sont dans sa portee
+        
     return ' '.join(orders)
 
 
